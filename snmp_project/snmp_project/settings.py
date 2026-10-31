@@ -137,3 +137,10 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 60.0,  # تنفيذ المهمة كل 60 ثانية
     },
 }
+
+# الواجهة الأمامية (Next.js) تصل إلى الـ API عبر proxy على نفس المضيف، ولا نستخدم تسجيل دخول للـ API،
+# لذلك نعطّل SessionAuthentication حتى لا يفشل POST بسبب CSRF عند وجود جلسة admin مفتوحة.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'UNAUTHENTICATED_USER': None,
+}
