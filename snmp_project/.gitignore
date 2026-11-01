@@ -1,3 +1,5 @@
+# Python / Venv
+../venv/
 venv/
 __pycache__/
 *.sqlite3
@@ -5,3 +7,7 @@ __pycache__/
 media/
 staticfiles/
 .vscode/
+
+# Celery
+celerybeat-schedule
+celerybeat-schedule.*
