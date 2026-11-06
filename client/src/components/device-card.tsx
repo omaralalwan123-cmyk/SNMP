@@ -4,11 +4,13 @@ import { StatusBadge } from "./status-badge";
 
 export function DeviceCard({
   device,
+  number,
   selected,
   now,
   onSelect,
 }: {
   device: Device;
+  number: number;
   selected: boolean;
   now: number | null;
   onSelect: () => void;
@@ -28,7 +30,7 @@ export function DeviceCard({
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-xs text-ink-3">Device #{device.id}</div>
+          <div className="text-xs text-ink-3">Device #{number}</div>
           <div className="truncate font-mono text-[15px] font-medium text-ink">{device.ip_address}</div>
         </div>
         <StatusBadge health={health} size="sm" />

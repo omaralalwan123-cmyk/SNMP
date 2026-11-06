@@ -8,6 +8,7 @@ import { AlertsPanel, type AlertFilter } from "./alerts-panel";
 import { DeviceCard } from "./device-card";
 import { DeviceDetail } from "./device-detail";
 import { BellIcon, ServerIcon } from "./icons";
+import { NetworkMap } from "./network-map";
 
 // How often the UI re-reads the API (the backend itself polls devices every 60s)
 const REFRESH_MS = 10_000;
@@ -97,7 +98,7 @@ export function Dashboard() {
           <span>
             {error ? "API offline" : lastSync && now ? `Live · synced ${timeAgo(new Date(lastSync).toISOString(), now)}` : "Connecting…"}
           </span>
-          <span className="text-ink-3">· SNMP v2c · polled every {POLL_INTERVAL_SECONDS}s</span>
+          <span className="text-ink-3">· SNMP v2c · refreshed every {REFRESH_MS / 1000}s · poll interval {POLL_INTERVAL_SECONDS}s</span>
         </div>
       </header>
 
@@ -125,12 +126,18 @@ export function Dashboard() {
         <Kpi label="Alerts logged" value={devices ? `${totalAlerts}` : "—"} hint="all time" icon />
       </dl>
 
+      <NetworkMap
+        devices={devices ?? []}
+        selectedId={selected?.id ?? null}
+        onSelect={setSelectedId}
+      />
+
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] xl:grid-cols-[300px_minmax(0,1fr)_360px]">
         <section aria-labelledby="devices-heading" className="flex flex-col gap-3">
           <h2 id="devices-heading" className="text-sm font-semibold text-ink">Devices</h2>
           {devices === null && !error && <div className="h-36 animate-pulse rounded-xl bg-surface-2" />}
-          {devices?.map((d) => (
-            <DeviceCard key={d.id} device={d} now={now} selected={d.id === selected?.id} onSelect={() => setSelectedId(d.id)} />
+          {devices?.map((d, index) => (
+            <DeviceCard key={d.id} number={index + 1} device={d} now={now} selected={d.id === selected?.id} onSelect={() => setSelectedId(d.id)} />
           ))}
           <AddDeviceForm
             onAdded={(d) => {

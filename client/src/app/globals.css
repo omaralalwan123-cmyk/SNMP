@@ -60,3 +60,8 @@ body {
 .tabular {
   font-variant-numeric: tabular-nums;
 }
+
+.network-map-node:focus-visible > rect:first-of-type {
+  stroke: var(--accent);
+  stroke-width: 3;
+}

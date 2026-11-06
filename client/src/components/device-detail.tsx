@@ -144,7 +144,11 @@ export function DeviceDetail({
             <div className="grid h-60 place-items-center text-sm text-ink-3">Loading metrics…</div>
           ) : inWindow.length === 0 ? (
             <div className="grid h-60 place-items-center rounded-lg bg-surface-2 px-6 text-center text-sm text-ink-3">
-              No samples in the last {windowKey}. The backend poller records one every 60 seconds. Use “Poll now” to collect one immediately.
+              No samples in the last {windowKey}. Use “Poll now” to collect one immediately, or run{" "}
+              <code className="mx-1 rounded bg-surface px-1 font-mono text-xs">
+                python manage.py simulate_scenario normal --device all --continuous
+              </code>
+              from the backend folder to see changing simulated readings for every device.
             </div>
           ) : view === "chart" ? (
             <CpuChart metrics={chronological} domain={[end - span, end]} />
